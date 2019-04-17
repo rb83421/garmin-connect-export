@@ -112,7 +112,7 @@ DATA = {
 }
 
 # URLs for various services.
-URL_GC_LOGIN = 'https://sso.garmin.com/sso/login?' + urlencode(DATA)
+URL_GC_LOGIN = 'https://sso.garmin.com/sso/signin?' + urlencode(DATA)
 URL_GC_POST_AUTH = 'https://connect.garmin.com/modern/activities?'
 URL_GC_PROFILE = 'https://connect.garmin.com/modern/profile'
 URL_GC_USERSTATS = 'https://connect.garmin.com/modern/proxy/userstats-service/statistics/'
@@ -440,7 +440,9 @@ def login_to_garmin_connect(args):
     }
 
     print('Requesting Login ticket...', end='')
-    login_response = http_req(URL_GC_LOGIN, post_data)
+    headers = {'origin': 'https://sso.garmin.com'}
+    login_response = http_req(URL_GC_LOGIN, post_data, headers=headers)
+
     # write_to_file(args.directory + '/login-response.html', login_response, 'w')
 
     # extract the ticket from the login response
