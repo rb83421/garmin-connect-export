@@ -653,7 +653,7 @@ def export_data_file(activity_id, activity_details, args, file_time, append_desc
     elif args.format == 'original':
         data_filename = directory + '/' + prefix + 'activity_' + activity_id + append_desc + '.zip'
         # TODO not all 'original' files are in FIT format, some are GPX or TCX...
-        fit_filename = directory + '/' + prefix + activity_id + '.fit'
+        fit_filename = directory + '/' + prefix + '/activity_' + activity_id + append_desc + '.fit'
         download_url = URL_GC_ORIGINAL_ACTIVITY + activity_id
         file_mode = 'wb'
     elif args.format == 'json':
@@ -714,9 +714,9 @@ def export_data_file(activity_id, activity_details, args, file_time, append_desc
                 zip_obj = zipfile.ZipFile(zip_file)
                 for name in zip_obj.namelist():
                     unzipped_name = zip_obj.extract(name, directory)
-                    # prepend 'activity_' and append the description to the base name
-                    name_base, name_ext = splitext(name)
-                    new_name = directory + '/activity_' + name_base + append_desc + name_ext
+                    name_unzipped_base, name_unzipped_ext = splitext(name)
+                    fit_filename_name_base, name_ext = splitext(fit_filename)
+                    new_name = fit_filename_name_base + name_unzipped_ext
                     logging.debug('renaming %s to %s', unzipped_name, new_name)
                     rename(unzipped_name, new_name)
                     if file_time:
@@ -725,7 +725,6 @@ def export_data_file(activity_id, activity_details, args, file_time, append_desc
             else:
                 print('\tSkipping 0Kb zip file.')
             remove(data_filename)
-
 
 def setup_logging():
     """Setup logging"""
