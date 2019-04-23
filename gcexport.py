@@ -669,7 +669,7 @@ def export_data_file(activity_id, activity_details, args, file_time, append_desc
         download_url = URL_GC_ORIGINAL_ACTIVITY + activity_id
         file_mode = 'wb'
     elif args.format == 'json':
-        data_filename = directory + '/' + prefix +'activity_' + activity_id + append_desc + '.json'
+        data_filename = directory + '/' + prefix + 'activity_' + activity_id + append_desc + '.json'
         file_mode = 'w'
     else:
         raise Exception('Unrecognized format.')
